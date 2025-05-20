@@ -27,7 +27,11 @@ import UserProfile from './pages/user/UserProfile';
 import UserLeaveTable from './pages/user/UserLeaveTable';
 import UserSalaryTable from './pages/user/UserSalaryTable';
 import UserSetting from './pages/user/UserSetting';
+
+
+
 import EmployeeForm from './pages/admin/EmployeeForm';
+import AdminEmployeeView from './pages/admin/AdminEmployeeView';
 
 
 
@@ -133,6 +137,7 @@ function App() {
               <Route path="salary" element={<Salary />} />
               {/* handling forms  */}
               <Route path="employeeForm"  element={<EmployeeForm />}   />
+              <Route path="employee/:id" element={<AdminEmployeeView />} />
             </Route>
 
             {/* User routes... */}

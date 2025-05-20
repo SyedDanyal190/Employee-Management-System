@@ -49,6 +49,9 @@ app.use("/",signRoute);
 app.use("/admin",Adminroute);
 
 
+app.use('/uploads', express.static('uploads'));
+
+
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);

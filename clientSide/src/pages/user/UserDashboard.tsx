@@ -1,5 +1,5 @@
 
-// AdminDashboard.tsx
+// AUserDashboard.tsx
 import React from "react";
 import SidebarUser from "./SlidebarUser";
 import { Outlet } from "react-router-dom";

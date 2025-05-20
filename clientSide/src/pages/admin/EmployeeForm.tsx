@@ -14,7 +14,7 @@ interface formData {
   role: string;
   designation: string;
   password: string;
-  // picture: File | null;
+  picture: File | null;
 }
 
 const EmployeeForm : React.FC = () => {
@@ -29,8 +29,19 @@ const EmployeeForm : React.FC = () => {
     role: '',
     designation: '',
     password: '',
-    // picture: null,
+    picture: null,
   });
+
+
+const [pictureFile, setPictureFile] = useState<File | null>(null);
+
+const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (file) {
+    setPictureFile(file);
+  }
+};
+
 
  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value} = e.target as HTMLInputElement;
@@ -45,16 +56,45 @@ const EmployeeForm : React.FC = () => {
 
 const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+// try {
+//     const response =  await  axios.post("http://localhost:4000/admin/employee",formData);
+//     console.log("form of employee ",formData);
+//     if(response.status === 200){
+//        toast.success("Empoyee Form had  been  successFully  edit");    
+//            console.log("User had been successfully registered", response.data);
+//     }  
+// } catch (error) {
+//       console.error("Error  occur during empoyee form");
+// }
+
+
+
 try {
-    const response =  await  axios.post("http://localhost:4000/admin/employee",formData);
-    if(response.status === 200){
-       toast.success("Empoyee Form had  been  successFully  edit");    
-           console.log("User had been successfully registered", response.data);
-    }  
+  const formPayload = new FormData();
+
+for (const key in formData) {
+  formPayload.append(key, formData[key]);
+}
+
+// Append file manually
+if (pictureFile) {
+  formPayload.append("picture", pictureFile);
+}
+
+await axios.post("http://localhost:4000/admin/employee", formPayload, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
+ toast.success("Employee form has been successfully submitted");
+
 } catch (error) {
       console.error("Error  occur during empoyee form");
 }
-  
+
+
+
 setFormData({
     name: '',
     email: '',
@@ -65,7 +105,10 @@ setFormData({
     role: '',
     designation: '',
     password: '',
-})
+   picture: null,  // fixed typo here, previously was 'pic'
+    });
+
+    setPictureFile(null);  // reset picture
 
 };
 
@@ -190,16 +233,21 @@ setFormData({
         </div>
 
         {/* Upload Picture */}
-        <div>
+      <div>
           <label className="block mb-1 font-medium">Upload Picture</label>
           <input
             type="file"
             name="picture"
             accept="image/*"
-        
+           onChange={handleFileChange}
             className="w-full border border-gray-300 p-2 rounded bg-white"
           />
-        </div>
+        </div> 
+
+
+
+
+
       </div>
 
       {/* Submit Button */}
