@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const EmployeeTable: React.FC = () => {
 
 const  [employeeData , setEmployeeData] =  useState([]);
+const   [search ,setSearch]    = useState<string>("")
 
 const navigate = useNavigate();
 
@@ -29,6 +30,16 @@ useEffect(()=>{
 
 
 
+const handleSearch =   employeeData.filter((emp) =>  {
+  const nameMatch = emp.name.toLowerCase().includes(search.toLowerCase());
+  const  designationMatch  = emp.designation.toLowerCase().includes(search.toLowerCase()) 
+  const departmentMatch  = emp.department.toLowerCase().includes(search.toLowerCase()); 
+
+  return  nameMatch || designationMatch ||  departmentMatch;
+})         
+
+
+
   return (
     <div className="p-6 bg-white rounded shadow">
 
@@ -43,8 +54,10 @@ useEffect(()=>{
           type="text"
           placeholder="Search..."
           className="border border-gray-300 rounded px-4 py-2 w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+         value={search}
+         onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"   onClick={()=> navigate(`/adminDashboard/employeeForm`)}>
           Add New Employee
         </button>
       </div>
@@ -63,7 +76,7 @@ useEffect(()=>{
             </tr>
           </thead>
      <tbody>
-  {employeeData.map((emp, index) => {
+  {handleSearch.map((emp, index) => {
     const {
       _id,
       name,

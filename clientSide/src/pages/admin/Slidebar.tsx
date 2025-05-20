@@ -174,11 +174,11 @@ const Sidebar: React.FC = () => {
               <FaCog /> Settings
             </Link>
           </li>
-          <li>
+          {/* <li>
                <Link to="/adminDashboard/employeeForm" className=" hover:bg-gray-700 p-2 rounded flex items-center gap-2">
               <FaCog /> EmpoyeeForm
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
