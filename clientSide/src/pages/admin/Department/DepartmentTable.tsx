@@ -16,7 +16,7 @@ const DepartmentTable: React.FC = () => {
 
 const  [deptData  , setDeptData ]  =  useState<DepartmentData[]>([])
  
-
+const[search , setSearch] = useState<string>(''); 
 
 const  navigate   =  useNavigate(); 
 
@@ -51,6 +51,16 @@ const handleDelete = async (id: string) => {
 };
 
 
+
+
+
+const handleSearch =  deptData.filter((emp) =>  {
+  const nameMatch = emp.name.toLowerCase().includes(search.toLowerCase());
+   return  nameMatch;
+})         
+
+
+
   return (
     <div className="p-6 bg-white rounded shadow">
       {/* Header */}
@@ -64,6 +74,7 @@ const handleDelete = async (id: string) => {
           type="text"
           placeholder="Search..."
           className="border border-gray-300 rounded px-4 py-2 w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"   onClick={()=>navigate(`/adminDashboard/department/addDepartment`)}>
           Add New Department
@@ -81,7 +92,7 @@ const handleDelete = async (id: string) => {
             </tr>
           </thead>
           <tbody>
-            {deptData.map((dept, index) => (
+            {handleSearch.map((dept, index) => (
               <tr  key={dept._id}   className="hover:bg-gray-50">
                 <td className="px-6 py-3 border">{index + 1}</td>
                 <td className="px-6 py-3 border">{dept.name}</td>
