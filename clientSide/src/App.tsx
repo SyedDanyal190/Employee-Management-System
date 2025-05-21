@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 
 import { AuthProvider } from './context/Authcontext'; // ✅ Import AuthProvider
 
@@ -18,7 +18,7 @@ import SignUp from './pages/auth/SignUp';
 
 import DashboardHome from "./pages/admin/Dashboard";
 import Employees from "./pages/admin/EmployeeTable";
-import Departments from "./pages/admin/DepartmentTable";
+import Departments from "./pages/admin/Department/DepartmentTable";
 import Leaves from "./pages/admin/LeaveTable";
 import Settings from "./pages/admin/Setting";
 import Salary from "./pages/admin/SalaryHistoryTable";
@@ -32,6 +32,10 @@ import UserSetting from './pages/user/UserSetting';
 
 import EmployeeForm from './pages/admin/EmployeeForm';
 import AdminEmployeeView from './pages/admin/AdminEmployeeView';
+import EditEmployeeForm from './pages/admin/EditEmployeeForm';
+import EditDepartmentForm from './pages/admin/Department/EditDepartmentForm';
+
+import AddDepartment from './pages/admin/Department/AddDepartment';
 
 
 
@@ -49,7 +53,6 @@ const showNavbar =
   location.pathname.startsWith('/adminDashboard') ||
   location.pathname.startsWith('/userDashboard') ||
   location.pathname.startsWith('/logOut');
-
 
   return (
     <>
@@ -129,15 +132,22 @@ function App() {
             {/* Admin Routes */}
             <Route path="/adminDashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>}>
               {/* Nested routes rendered inside AdminDashboard's <Outlet> */}
+              <Route index element={<Navigate to="dashboardHome" replace />} />
+
               <Route path='dashboardHome' element={<DashboardHome />} />
               <Route path="employees" element={<Employees />} />
               <Route path="departments" element={<Departments />} />
               <Route path="leaves" element={<Leaves />} />
               <Route path="settings" element={<Settings />} />
               <Route path="salary" element={<Salary />} />
-              {/* handling forms  */}
+              {/* handling Empoyee Form (edit , view ,delete ) */}
               <Route path="employeeForm"  element={<EmployeeForm />}   />
               <Route path="employee/:id" element={<AdminEmployeeView />} />
+              <Route path='editEmployeeForm/:id' element={<EditEmployeeForm />} /> 
+             {/*  handling  Department  Form   */}
+             <Route  path='department/addDepartment'  element={<AddDepartment />} />
+                <Route  path='department/editDepartmentForm/:id'  element={<EditDepartmentForm/>}   />
+                
             </Route>
 
             {/* User routes... */}

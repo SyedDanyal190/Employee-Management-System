@@ -2,9 +2,19 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
+interface  Employee {
+    _id  : string,
+    name  : string,
+    designation : string,
+    department : string,
+     image : string , 
+}
+
+
 const EmployeeTable: React.FC = () => {
 
-const  [employeeData , setEmployeeData] =  useState([]);
+const  [employeeData , setEmployeeData] =  useState<Employee[]>([]);
 const   [search ,setSearch]    = useState<string>("")
 
 const navigate = useNavigate();
@@ -112,7 +122,7 @@ const handleSearch =   employeeData.filter((emp) =>  {
 >
   View
 </button>
-          <button className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600">
+          <button className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" onClick={()=>navigate(`/adminDashboard/editEmployeeForm/${_id}`)  }>
             Edit
           </button>
           <button className="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600">

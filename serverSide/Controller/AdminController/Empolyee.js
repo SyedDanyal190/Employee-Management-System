@@ -111,7 +111,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-const EmpoyeeForm = async (req, res) => {
+const EmployeeForm = async (req, res) => {
   try {
     const { name, email, employeeId, gender, department, salary, role, designation, password } = req.body;
 
@@ -188,12 +188,40 @@ const GetEmployeeDataId = async(req,res)=>{
          }
 } 
 
+// Edit Empoyee Form Data 
+
+   
+const  EditEmployeeData  =  async(req,res)=>{
+    try {
+  const id = req.params.id;
+
+    console.log(`Id:`, id);
+       
+      const UpdateForm = await EmployeeAdminSchema.findByIdAndUpdate(id, req.body ,{ new: true });
+       res.status(200).json({
+          success : true,
+           message :"Empoyee  Form had  been  updated successFully",
+           data : UpdateForm,
+        }) 
+
+    } catch (error) {
+         console.error("Error  EdIt employee data")
+      res.status(500).json({
+                 success : false,
+                 message :"Server Error",
+            })
+    }
+}
+
+
+
 
 
 
 
 module.exports ={
-      EmpoyeeForm,
+    EmployeeForm,
     GetEmployeeData,
-    GetEmployeeDataId
+    GetEmployeeDataId,
+    EditEmployeeData,
 }

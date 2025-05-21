@@ -12,6 +12,7 @@ const EmployeeAdminSchema = new mongoose.Schema({
   role: { type: String, required: true },
   designation: { type: String, required: true },
   password: { type: String, required: true },
+  description : {type : String, required  :  true},
  picture: {
     data: Buffer,
     contentType: String,

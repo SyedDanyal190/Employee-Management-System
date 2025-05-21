@@ -1,11 +1,55 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+
+interface   DepartmentData  {
+    _id : string,
+   name : string
+}
+
+
 
 const DepartmentTable: React.FC = () => {
-  const departments = [
-    { id: 1, name: 'Human Resources' },
-    { id: 2, name: 'IT' },
-    { id: 3, name: 'Finance' },
-  ];
+
+
+
+const  [deptData  , setDeptData ]  =  useState<DepartmentData[]>([])
+ 
+
+
+const  navigate   =  useNavigate(); 
+
+
+const  fetchingDeptData  =  async()=>{
+      try {
+
+    const response  =  await axios.get("http://localhost:4000/admin/getdepartment");
+    console.log("Getting Department ssDataa", response.data);    
+        setDeptData(response.data.data);
+      } catch (error) {
+          console.error("Error  occuring in  submitting data");
+      }
+}
+
+
+useEffect(()=>{
+  fetchingDeptData()
+},[])
+
+const handleDelete = async (id: string) => {
+  try {
+    await axios.delete(`http://localhost:4000/admin/deletedepatment/${id}`);
+    
+    setDeptData((prev) => prev.filter((depart) => depart._id !== id));
+
+    toast.success("Department deleted successfully");
+  } catch (error) {
+    console.error("Data has not been deleted");
+    toast.error("Failed to delete department");
+  }
+};
+
 
   return (
     <div className="p-6 bg-white rounded shadow">
@@ -21,7 +65,7 @@ const DepartmentTable: React.FC = () => {
           placeholder="Search..."
           className="border border-gray-300 rounded px-4 py-2 w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"   onClick={()=>navigate(`/adminDashboard/department/addDepartment`)}>
           Add New Department
         </button>
       </div>
@@ -37,15 +81,19 @@ const DepartmentTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {departments.map((dept, index) => (
-              <tr key={dept.id} className="hover:bg-gray-50">
+            {deptData.map((dept, index) => (
+              <tr  key={dept._id}   className="hover:bg-gray-50">
                 <td className="px-6 py-3 border">{index + 1}</td>
                 <td className="px-6 py-3 border">{dept.name}</td>
                 <td className="px-6 py-3 border space-x-2">
-                  <button className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600">
-                    Edit
+                  <button className="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" 
+                  
+                  // onClick={(()=> navigate(`/editDepartmentForm/${dept._id}`) )} >
+                onClick={() => navigate(`/adminDashboard/department/editDepartmentForm/${dept._id}`)}>
+
+                  Edit
                   </button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                  <button className="bg-red-500  ml-3 text-white px-3 py-1 rounded text-sm hover:bg-red-600"  onClick={()=>handleDelete(dept._id)}>
                     Delete
                   </button>
                 </td>
@@ -54,6 +102,7 @@ const DepartmentTable: React.FC = () => {
           </tbody>
         </table>
       </div>
+       <ToastContainer />
     </div>
   );
 };
