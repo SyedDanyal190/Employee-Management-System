@@ -11,34 +11,32 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// const { verifyToken } = require("../../Middleware/Auth");
-// const { onlyAdmin, allowAdminOrSelf } = require("../../Middleware/Authorization");
 
-
+const { isAdmin,verifyToken  }      =  require("../../Middleware/authMiddleware")
 
 
 // Empoyee Route
  // Route to handle form + picture (Add Form)
-router.post("/employee", upload.single("picture"), EmployeeController.EmployeeForm);
+router.post("/employee",verifyToken,isAdmin, upload.single("picture"), EmployeeController.EmployeeForm);
 // Add get
-router.get("/getemployee",EmployeeController.GetEmployeeData);
+router.get("/getemployee", verifyToken,isAdmin, EmployeeController.GetEmployeeData);
 // get by ID
- router.get("/getemployeeView/:id",EmployeeController.GetEmployeeDataId );
+ router.get("/getemployeeView/:id", verifyToken,isAdmin, EmployeeController.GetEmployeeDataId );
 //  Edit
-router.put("/editemployeeForm/:id",EmployeeController.EditEmployeeData);
+router.put("/editemployeeForm/:id" ,verifyToken,isAdmin, EmployeeController.EditEmployeeData);
 
 //Department  Route 
 
 // Add
-router.post("/addepartment", DepartmentController.AddDepartmentForm);
+router.post("/addepartment",  verifyToken,isAdmin,  DepartmentController.AddDepartmentForm);
 // Get
-router.get("/getdepartment", DepartmentController.GetDepartmentForm);
+router.get("/getdepartment", verifyToken,isAdmin,  DepartmentController.GetDepartmentForm);
 // Get By Id
-router.get("/getdepartment/:id",DepartmentController.GetDepartmentFormById);
+router.get("/getdepartment/:id",  verifyToken,isAdmin,  DepartmentController.GetDepartmentFormById);
 // Edit  
-router.put("/editdepartment/:id",DepartmentController.EditDepartmentForm);
+router.put("/editdepartment/:id", verifyToken,isAdmin,  DepartmentController.EditDepartmentForm);
 // Delete
-router.delete("/deletedepatment/:id",DepartmentController.DeleteDepartmentForm);
+router.delete("/deletedepatment/:id", verifyToken,isAdmin,  DepartmentController.DeleteDepartmentForm);
 
 
 

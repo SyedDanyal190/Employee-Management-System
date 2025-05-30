@@ -19,9 +19,17 @@ const   [search ,setSearch]    = useState<string>("")
 
 const navigate = useNavigate();
 
+
+
+const token = localStorage.getItem("token");
+
 const  FetchEmpoyeeData = async()=>{
     try {
-     const response  = await axios.get("http://localhost:4000/admin/getemployee");
+     const response  = await axios.get("http://localhost:4000/admin/getemployee" ,{
+            headers: {
+    Authorization: `Bearer ${token}`
+     }
+     });
          if(response.status === 200){
                console.log("resposneDataaaaaa",response.data.data);
                setEmployeeData(response.data.data);

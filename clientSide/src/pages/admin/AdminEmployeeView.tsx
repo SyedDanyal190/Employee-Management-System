@@ -21,9 +21,16 @@ const AdminEmployeeView: React.FC = () => {
   const { id } = useParams(); // get employee id from URL
   const [employeeData, setEmployeeData] = useState<any>(null);
 
+const token = localStorage.getItem("token");
+
   const fetchEmployeeData = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/admin/getemployeeView/${id}`);
+      const response = await axios.get(`http://localhost:4000/admin/getemployeeView/${id}`,{
+        
+  headers: {
+    Authorization: `Bearer ${token}`,
+  }
+      });
       if (response.status === 200) {
         setEmployeeData(response.data.data);
       }

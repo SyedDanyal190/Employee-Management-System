@@ -27,13 +27,20 @@ const EditEmployeeForm: React.FC = () => {
     salary: '',
   });
 
+
+   const token = localStorage.getItem("token");
+
   // 👉 Fetch employee data when component mounts
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
         console.log("Editing employee ID:", id);
 
-       const response = await axios.get(`http://localhost:4000/admin/getemployeeView/${id}`);
+       const response = await axios.get(`http://localhost:4000/admin/getemployeeView/${id}`,{
+         headers: {
+    Authorization: `Bearer ${token}`,
+  }
+       });
         setEditForm(response.data.data);
       } catch (error) {
         toast.error('Failed to load employee data');
@@ -53,11 +60,17 @@ const EditEmployeeForm: React.FC = () => {
     }));
   };
 
+
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       // 👉 Send updated form data with PATCH (or PUT if replacing all fields)
-   await axios.put(`http://localhost:4000/admin/editemployeeForm/${id}`, editForm);
+   await axios.put(`http://localhost:4000/admin/editemployeeForm/${id}`, editForm  ,{
+     headers: {
+    Authorization: `Bearer ${token}`,
+  }
+   });
 
  toast.success('Employee updated successfully', {
   autoClose: 1500
@@ -75,7 +88,7 @@ const EditEmployeeForm: React.FC = () => {
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto bg-white shadow-md rounded p-8 mt-10"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center">Edit Employee</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Edit Employee Form</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
    

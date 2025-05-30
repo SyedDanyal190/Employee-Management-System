@@ -35,7 +35,7 @@ mongodb.connect(process.env.MONGODB_URI)
 //Routes
 const  signRoute  = require("../serverSide/Route/signRoute");
 const   Adminroute = require("../serverSide/Route/AdminRoutes/AdminRoute"); 
-
+const   Userroute    =  require("../serverSide/Route/UserRoutes/UserRoute");
 
 
 
@@ -47,10 +47,12 @@ app.get('/', (req, res) => {
 app.use("/",signRoute);
 // Adminroute
 app.use("/admin",Adminroute);
-
+//
+app.use("/user", Userroute);
 
 app.use('/uploads', express.static('uploads'));
 
+ 
 
 
 app.listen(PORT, () => {

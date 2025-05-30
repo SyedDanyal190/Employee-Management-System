@@ -133,6 +133,8 @@ const EmployeeForm = async (req, res) => {
         : undefined,
     });
 
+console.log("Form Data ",form);
+
     await form.save();
 
     res.status(200).json({

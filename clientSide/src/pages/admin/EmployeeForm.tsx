@@ -35,6 +35,12 @@ const EmployeeForm : React.FC = () => {
 
 const [pictureFile, setPictureFile] = useState<File | null>(null);
 
+
+
+   const token = localStorage.getItem("token");
+
+
+
 const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -84,6 +90,7 @@ if (pictureFile) {
 await axios.post("http://localhost:4000/admin/employee", formPayload, {
   headers: {
     "Content-Type": "multipart/form-data",
+    Authorization: `Bearer ${token}`,
   },
 });
 

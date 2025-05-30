@@ -30,7 +30,7 @@ const SalaryHistoryTable: React.FC = () => {
 
   // Calculate total = salary + allowance - deduction
   const formatCurrency = (num: number) =>
-    `₹${num.toLocaleString('en-IN')}`;
+    `$${num.toLocaleString('en-IN')}`;
 
   return (
     <div className="p-6 bg-white rounded shadow mt-6">
